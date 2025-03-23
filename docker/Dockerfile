@@ -29,7 +29,7 @@ ENV PYTHONUNBUFFERED=1 PYTHONHASHSEED=random PYTHONDONTWRITEBYTECODE=1
 
 RUN chown -R admin:admin /home/admin
 
-RUN chmod +x ./entrypoint.sh
+RUN chmod +x ./scripts/entrypoint.sh
 
 USER admin
 
@@ -37,4 +37,4 @@ USER admin
 EXPOSE 5555
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["./entrypoint.sh"]
+CMD ["./scripts/entrypoint.sh"]

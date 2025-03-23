@@ -3,7 +3,8 @@
 docker
 docs
 examples
-scripts
+scripts/start-*.sh
+scripts/build-*.sh
 docker-compose.yml
 Dockerfile
 
