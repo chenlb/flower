@@ -1,0 +1,35 @@
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+  worker:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: /home/admin/.local/bin/celery -A tasks worker -l info -E
+    volumes:
+      - ../examples/celeryconfig.py:/home/admin/flower/celeryconfig.py
+      - ../examples/tasks.py:/home/admin/flower/tasks.py
+    environment:
+      CELERY_BROKER_URL: redis://redis
+      CELERY_RESULT_BACKEND: redis://redis
+    depends_on:
+      - redis
+  flower:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    volumes:
+      # examples 示例
+      - ../examples/celeryconfig.py:/home/admin/flower/celeryconfig.py
+      - ../examples/tasks.py:/home/admin/flower/tasks.py
+      # 设置 flower 配置，如增加 oauth2 配置。
+      #- ./flowerconfig.py:/home/admin/flower/flowerconfig.py
+    ports:
+      - "5555:5555"
+    env_file:
+      - .env.docker
+    depends_on:
+      - worker
+      - redis

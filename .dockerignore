@@ -1,0 +1,9 @@
+.venv
+.github
+docker
+docs
+examples
+scripts
+docker-compose.yml
+Dockerfile
+
